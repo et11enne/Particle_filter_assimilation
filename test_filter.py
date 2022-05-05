@@ -77,7 +77,7 @@ PF = ParticleFilter(Massif,S1_type,Saison)
 
 
 #effweight_test = PF.efficientWeights()
-test = PF.find_best_member_ori_day()
+test = PF.weight_with_spearman()
 
 
 #test = PF.find_best_member_ori_day('N')

@@ -14,7 +14,7 @@ import numpy as np
 ###############################################################################################
 #                                       TODO
 #
-#   verifier que S1 et crocus sont dans le même sens  
+#     
 #
 #
 ###############################################################################################
@@ -60,25 +60,26 @@ class ParticleFilter(ProEns,object):
         print("dvlp")
         
     def efficientWeights(self):
-    # reinvented formula 20/03
         
     
-        
+       
         effweights = np.around(1. / (self.nmembers * np.mean([w**2 for w in self.weight_dict.values()])))
 
         return(effweights)
     
-    def find_best_member_ori_day(self,ori=None):
+    def weight_with_spearman(self,ori=None):
     
         list_bmember = []
         list_bmember_N = []
         list_bmember_S = []
         
         for dd in range(0,len(self.list_date_of_obs),1):
-            bmember_N = self.weight_normalize(self.ensemble_test.calc_corr_spearman_day(dd,'N',0,10))
+            # Bestmbember 
+            bmember_N = self.weight_normalize(self.ensemble_test.calc_corr_spearman_day(dd,'N',0,10)) 
             bmember_S = self.weight_normalize(self.ensemble_test.calc_corr_spearman_day(dd,'S',0,10))
             bmember   = self.weight_normalize(self.ensemble_test.calc_corr_spearman_day(dd,ori))
             
+            #selection of a range of member
             new_data_N = {k: v for k, v in bmember_N.items() if v >= (max(bmember_N.values())  -0.01)}
             new_data_S = {k: v for k, v in bmember_S.items() if v >= (max(bmember_S.values())  -0.01)}
             new_data   = {k: v for k, v in bmember.items()   if v >= (max(bmember.values())    -0.01)}
@@ -167,7 +168,7 @@ class ParticleFilter(ProEns,object):
         for i in range(N):
             weights.append(self.particles[i].weight)
 
-        beta = 0.0
+        beta = 0.0 # to change
         mw = max(weights)
         for i in range(N):
             beta += random.random() * 2.0 * mw
@@ -197,12 +198,11 @@ class ParticleFilter(ProEns,object):
     
     '''
     def localisation(self,):
-        #Tackle degeneracy by reducing the number of observations simultaneously assimilated
-        #Solution
+        
         print("dvlp")
         
     def inflation(self,):
-        # Tackle degeneracy by increasing the PF tolerance
+        
         print("dvlp")
         
     def Pf(self,):
@@ -216,7 +216,7 @@ class ParticleFilter(ProEns,object):
     def resampling(self):
         
         #dvlp
-        print("dvlp")
+       
     
     def get_score_member(self, dd):
         
